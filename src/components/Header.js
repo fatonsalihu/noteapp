@@ -4,6 +4,7 @@ import { auth } from "../firebase.js";
 import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [email, setEmail] = useState("");
   const [isLoggedIn, setIsLogedIn] = useState(false);
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ function Header() {
           className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
           aria-controls="navbar-solid-bg"
           aria-expanded="false"
+          onClick={() => setNavbarOpen(!navbarOpen)}
         >
           <span className="sr-only">Open main menu</span>
           <svg
@@ -59,18 +61,22 @@ function Header() {
             ></path>
           </svg>
         </button>
-        <div className="hidden w-full md:block md:w-auto" id="navbar-solid-bg">
+        <div className={"w-full md:block md:w-auto" + (navbarOpen ? " flex" : " hidden")} id="navbar-solid-bg">
           {isLoggedIn && (
-            <div>
-              <span className="pr-3 text-white">User: {email}</span>
-              <button
-                onClick={handleSignOut}
-                type="button"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-              >
-                SignOut
-              </button>
-            </div>
+            <ul className="flex flex-col mt-4 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+              <li>
+                <span className="pr-3 text-white">User: {email}</span>
+              </li>
+              <li>
+                <button
+                  onClick={handleSignOut}
+                  type="button"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                >
+                  SignOut
+                </button>
+              </li>
+            </ul>
           )}
         </div>
       </div>
