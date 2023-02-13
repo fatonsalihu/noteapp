@@ -1,6 +1,11 @@
 import React from "react";
+import { EditorState, Editor, convertFromRaw } from "draft-js";
+import "draft-js/dist/Draft.css";
 
 function Note({ note, onDelete }) {
+  const contentState = convertFromRaw(JSON.parse(note.content));
+  const editorState = EditorState.createWithContent(contentState);
+
   return (
     <div className="relative w-96 h-80 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
       <div className="text-white w-96 underline underline-offset-8">
@@ -8,8 +13,8 @@ function Note({ note, onDelete }) {
           {note.title}
         </h5>
       </div>
-      <div className="mt-5 text-gray-300">
-        <p>{note.content}</p>
+      <div className="mt-5 text-gray-300 overflow-y-scroll h-36 ">
+        <Editor editorState={editorState} readOnly={true} />
       </div>
       <div className="absolute bottom-0 right-0">
         <button
@@ -22,7 +27,7 @@ function Note({ note, onDelete }) {
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="w-5 h-5"
+            className="w-5 h-5"
           >
             <path
               stroke-linecap="round"
