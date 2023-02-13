@@ -12,6 +12,7 @@ function App() {
     <div className="w-full h-screen bg-gray-900">
       <Router>
         <Header />
+
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />} />

@@ -5,6 +5,11 @@ import NoteList from "./NoteList";
 
 function Home() {
   const [addNoteModal, setaddNoteModal] = useState(false);
+  const [search, setSearch]=useState("")
+
+  const handleSearch = (word) =>{
+    setSearch(word);
+  } 
   return (
     <div className="m-10">
       <div className="flex flex-row justify-between">
@@ -17,10 +22,10 @@ function Home() {
           </button>
         </Link>
 
-        <Search />
+        <Search handleSearch={handleSearch}/>
       </div>
       <div>
-        <NoteList />
+        <NoteList search={search}/>
       </div>
     </div>
   );

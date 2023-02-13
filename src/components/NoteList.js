@@ -6,7 +6,7 @@ import { uid } from "uid";
 import { set, ref, onValue, remove, update } from "firebase/database";
 import Note from "./Note";
 
-function NoteList() {
+function NoteList({ search }) {
   const [notes, setNotes] = useState([]);
   const navigate = useNavigate();
 
@@ -34,9 +34,16 @@ function NoteList() {
 
   return (
     <div className="grid grid-cols-[repeat(auto-fill,minmax(384px,1fr))] gap-3">
-      {notes.map((note) => (
-        <Note key={note.uidd} note={note} onDelete={handleDelete} />
-      ))}
+      {notes
+        .filter((note) => {
+          return (
+            note.title.toLowerCase().includes(search) ||
+            note.content.toLowerCase().includes(search)
+          );
+        })
+        .map((note) => (
+          <Note key={note.uidd} note={note} onDelete={handleDelete} />
+        ))}
     </div>
   );
 }
