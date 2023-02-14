@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase.js";
 import { useNavigate } from "react-router-dom";
+import { UserAuth } from "../context/Auth";
 
 function Register() {
   const navigate = useNavigate();
@@ -12,6 +11,8 @@ function Register() {
     password: "",
     confirmPassword: "",
   });
+
+  const { createUser } = UserAuth();
 
   const emailHandler = (e) => {
     setRegisterInformation({ ...registerInformation, email: e.target.value });
@@ -46,16 +47,13 @@ function Register() {
       alert("Please confirm that password are the same");
       return;
     }
-    createUserWithEmailAndPassword(
-      auth,
-      registerInformation.email,
-      registerInformation.password
-    )
-      .then(() => {
-        navigate("/");
-        alert('You Have Been Registered')
-      })
-      .catch((err) => console.log(err.message));
+    try {
+      createUser(registerInformation.email, registerInformation.password);
+      navigate("/");
+      alert("You Have Been Registered");
+    } catch (e) {
+      alert(e.message);
+    }
     setIsRegistering(true);
   };
 

@@ -2,7 +2,7 @@ import React from "react";
 
 function Search({ handleSearch }) {
   const handleSearchChange = (e) => {
-    console.log(e.target.value.toLowerCase());
+    //console.log(e.target.value.toLowerCase());
     handleSearch(e.target.value.toLowerCase());
   };
 

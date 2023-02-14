@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { auth, db } from "../firebase.js";
+import { db } from "../firebase.js";
 import { uid } from "uid";
 import { set, ref } from "firebase/database";
+import { AuthContext } from "../context/Auth.js";
 import { EditorState, convertToRaw } from "draft-js";
 import BuildEditor from "./BuildEditor.js";
 
 function AddNote() {
+  const { currentUser } = useContext(AuthContext);
   const [title, setTitle] = useState("");
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
-
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
@@ -21,7 +22,7 @@ function AddNote() {
 
   const writeToDatabase = () => {
     const uidd = uid();
-    set(ref(db, `/${auth.currentUser.uid}/${uidd}`), {
+    set(ref(db, `/${currentUser.uid}/${uidd}`), {
       title: title,
       content: content,
       uidd: uidd,
@@ -52,7 +53,7 @@ function AddNote() {
           </div>
           <br />
           <div className="flex justify-end">
-            <Link to="/">
+            <Link to="/home">
               <button
                 className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
@@ -60,7 +61,7 @@ function AddNote() {
                 Close
               </button>
             </Link>
-            <Link to="/">
+            <Link to="/home">
               <button
                 onClick={writeToDatabase}
                 type="submit"

@@ -1,33 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase.js";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserAuth } from "../context/Auth";
 
 function Header() {
-  const [navbarOpen, setNavbarOpen] = React.useState(false);
-  const [email, setEmail] = useState("");
-  const [isLoggedIn, setIsLogedIn] = useState(false);
+  const [navbarOpen, setNavbarOpen] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        setEmail(user.email);
-        setIsLogedIn(true);
-      } else {
-        setIsLogedIn(false);
-      }
-    });
-  }, []);
+  const { currentUser, logout } = UserAuth();
 
   const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        navigate("/");
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
+    try {
+      logout();
+      navigate("/");
+      console.log("You are logged out");
+    } catch (e) {
+      alert(e.message);
+    }
   };
 
   return (
@@ -61,11 +48,18 @@ function Header() {
             ></path>
           </svg>
         </button>
-        <div className={"w-full md:block md:w-auto" + (navbarOpen ? " flex" : " hidden")} id="navbar-solid-bg">
-          {isLoggedIn && (
+        <div
+          className={
+            "w-full md:block md:w-auto" + (navbarOpen ? " flex" : " hidden")
+          }
+          id="navbar-solid-bg"
+        >
+          {currentUser && (
             <ul className="flex flex-col mt-4 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
               <li>
-                <span className="pr-3 text-white">User: {email}</span>
+                <span className="pr-3 text-white">
+                  User: {currentUser.email}
+                </span>
               </li>
               <li>
                 <button

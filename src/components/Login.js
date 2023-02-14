@@ -1,22 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase.js";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserAuth } from "../context/Auth";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        navigate("/home");
-      } else {
-        navigate("/");
-      }
-    });
-  }, []);
+  const { signIn } = UserAuth();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -28,11 +18,12 @@ function Login() {
 
   const handleSignIn = (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        navigate("/home");
-      })
-      .catch((err) => alert(err.message));
+    try {
+      signIn(email, password);
+      navigate("/home");
+    } catch (err) {
+      alert(err.message);
+    }
   };
   return (
     <div className="flex justify-center items-center h-screen">
@@ -77,7 +68,7 @@ function Login() {
           </div>
           <div className="flex items-start">
             <a
-              href="#"
+              href="/"
               className="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
             >
               Lost Password?
