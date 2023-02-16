@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { EditorState, Editor, convertFromRaw } from "draft-js";
+import { useNavigate } from "react-router-dom";
 import "draft-js/dist/Draft.css";
 
 function Note({ note, onDelete }) {
   const contentState = convertFromRaw(JSON.parse(note.content));
-  const editorState = EditorState.createWithContent(contentState);
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createWithContent(contentState)
+  );
+
+  const navigate = useNavigate();
 
   return (
     <div className="relative w-96 h-80 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
@@ -19,6 +24,17 @@ function Note({ note, onDelete }) {
       <div className="absolute bottom-0 right-0">
         <button
           type="button"
+          onClick={() =>
+            navigate("/editnote", {
+              state: {
+                uidd: note.uidd,
+                title: note.title,
+                content: note.content,
+                edit: true,
+                eState: editorState,
+              },
+            })
+          }
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         >
           <svg

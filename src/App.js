@@ -11,13 +11,14 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <AuthProvider>
-      <div className="w-full h-screen bg-gray-900">
+      <div className="w-screen h-screen bg-gray-900">
         <Router>
           <Header />
           <Routes>
             <Route element={<ProtectedRoute />}>
               <Route element={<Home />} path="/home" exact />
               <Route element={<AddNote />} path="/addnote" />
+              <Route element={<AddNote />} path="/editnote" />
             </Route>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />

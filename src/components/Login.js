@@ -6,7 +6,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { signIn } = UserAuth();
+  const { signIn, currentUser } = UserAuth();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -15,6 +15,10 @@ function Login() {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+
+  if (currentUser) {
+    navigate("/home");
+  }
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -26,7 +30,7 @@ function Login() {
     }
   };
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center  h-screen">
       <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
         <form className="space-y-6" action="#">
           <h5 className="text-xl font-medium text-gray-900 dark:text-white">

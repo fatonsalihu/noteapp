@@ -1,32 +1,52 @@
-import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { db } from "../firebase.js";
 import { uid } from "uid";
-import { set, ref } from "firebase/database";
+import { set, ref, update } from "firebase/database";
 import { AuthContext } from "../context/Auth.js";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import BuildEditor from "./BuildEditor.js";
+import { contains } from "@firebase/util";
 
 function AddNote() {
   const { currentUser } = useContext(AuthContext);
   const [title, setTitle] = useState("");
+  const location = useLocation();
+  const [editable, setEditable] = useState(location.state.edit);
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
-
-  const contentState = editorState.getCurrentContent();
-  const content = JSON.stringify(convertToRaw(contentState));
+  useEffect(() => {
+    if (editable === true) {
+      setTitle(location.state.title);
+      const content = location.state.content;
+      const contentState = convertFromRaw(JSON.parse(content));
+      setEditorState(() => EditorState.createWithContent(contentState));
+    }
+  }, []);
 
   const writeToDatabase = () => {
+    const contentState = editorState.getCurrentContent();
+    const content = JSON.stringify(convertToRaw(contentState));
+
     const uidd = uid();
-    set(ref(db, `/${currentUser.uid}/${uidd}`), {
-      title: title,
-      content: content,
-      uidd: uidd,
-    });
+    if (editable === false) {
+      set(ref(db, `/${currentUser.uid}/${uidd}`), {
+        title: title,
+        content: content,
+        uidd: uidd,
+      });
+    } else if (editable === true) {
+      update(ref(db, `/${currentUser.uid}/${location.state.uidd}`), {
+        title: title,
+        content: content,
+        uidd: location.state.uidd,
+      });
+    }
 
     setTitle("");
     setEditorState(() => EditorState.createEmpty());
@@ -67,7 +87,7 @@ function AddNote() {
                 type="submit"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                Add Note
+                {editable ? "Edit Note" : "Add Note"}
               </button>
             </Link>
           </div>
