@@ -20,10 +20,10 @@ function Login() {
     navigate("/home");
   }
 
-  const handleSignIn = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      signIn(email, password);
+      await signIn(email, password);
       navigate("/home");
     } catch (err) {
       alert(err.message);

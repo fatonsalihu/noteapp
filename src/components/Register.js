@@ -36,7 +36,7 @@ function Register() {
     });
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     if (registerInformation.email !== registerInformation.confirmEmail) {
       alert("Please confirm that email are the same");
@@ -48,7 +48,7 @@ function Register() {
       return;
     }
     try {
-      createUser(registerInformation.email, registerInformation.password);
+      await createUser(registerInformation.email, registerInformation.password);
       navigate("/");
       alert("You Have Been Registered");
     } catch (e) {

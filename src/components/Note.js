@@ -18,7 +18,7 @@ function Note({ note, onDelete }) {
           {note.title}
         </h5>
       </div>
-      <div className="mt-5 text-gray-300 overflow-y-scroll h-36 ">
+      <div className="mt-5 text-gray-300 overflow-y-scroll scrollbar-thin scrollbar-thumb-slate-900 scrollbar-track-slate-500 h-36 ">
         <Editor editorState={editorState} readOnly={true} />
       </div>
       <div className="absolute bottom-0 right-0">

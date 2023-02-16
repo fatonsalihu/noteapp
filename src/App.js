@@ -11,7 +11,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <AuthProvider>
-      <div className="w-screen h-screen bg-gray-900">
+      <div className="h-screen bg-gray-900">
         <Router>
           <Header />
           <Routes>

@@ -1,15 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { db } from "../firebase.js";
 import { uid } from "uid";
 import { set, ref, update } from "firebase/database";
 import { AuthContext } from "../context/Auth.js";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import BuildEditor from "./BuildEditor.js";
-import { contains } from "@firebase/util";
 
 function AddNote() {
   const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const location = useLocation();
   const [editable, setEditable] = useState(location.state.edit);
@@ -47,9 +47,9 @@ function AddNote() {
         uidd: location.state.uidd,
       });
     }
-
     setTitle("");
     setEditorState(() => EditorState.createEmpty());
+    navigate("/home");
   };
 
   return (
@@ -71,25 +71,21 @@ function AddNote() {
               setEditorState={setEditorState}
             />
           </div>
-          <br />
-          <div className="flex justify-end">
-            <Link to="/home">
-              <button
-                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-              >
-                Close
-              </button>
-            </Link>
-            <Link to="/home">
-              <button
-                onClick={writeToDatabase}
-                type="submit"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                {editable ? "Edit Note" : "Add Note"}
-              </button>
-            </Link>
+          <div className="flex justify-end py-3">
+            <button
+              onClick={() => navigate("/home")}
+              className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+            >
+              Close
+            </button>
+            <button
+              onClick={writeToDatabase}
+              type="submit"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              {editable ? "Edit Note" : "Add Note"}
+            </button>
           </div>
         </div>
       </div>

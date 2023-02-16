@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { auth, db } from "../firebase.js";
 import { useNavigate } from "react-router-dom";
-import { ref, onValue, remove, update } from "firebase/database";
+import { ref, onValue, remove } from "firebase/database";
 import Note from "./Note";
 
 function NoteList({ search }) {
