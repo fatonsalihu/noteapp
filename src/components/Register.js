@@ -5,6 +5,8 @@ import { UserAuth } from "../context/Auth";
 function Register() {
   const navigate = useNavigate();
   const [isRegistering, setIsRegistering] = useState(false);
+  const [emailIsValid, setEmailIsValid] = useState();
+  const [passwordIsValid, setPasswordIsValid] = useState();
   const [registerInformation, setRegisterInformation] = useState({
     email: "",
     confirmEmail: "",
@@ -71,8 +73,8 @@ function Register() {
             <input
               type="email"
               id="email"
-              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-              placeholder="name@flowbite.com"
+              className={`shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light`}
+              placeholder="name@gmail.com"
               value={registerInformation.email}
               onChange={emailHandler}
               required
@@ -141,7 +143,7 @@ function Register() {
               htmlFor="terms"
               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
-              I agree with the{" "}
+              I agree with the
               <a
                 href="#"
                 className="text-blue-600 hover:underline dark:text-blue-500"

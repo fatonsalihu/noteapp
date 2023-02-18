@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/Auth";
+import PasswordReset from "./PasswordReset";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
   const { signIn, currentUser } = UserAuth();
+  const [isResetPasswordOpen, setIsPasswordResetOpen] = useState(false);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -20,13 +23,18 @@ function Login() {
     navigate("/home");
   }
 
+  const passwordResetModalHandler = () => {
+    setIsPasswordResetOpen(true);
+  };
+
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
       await signIn(email, password);
       navigate("/home");
     } catch (err) {
-      alert(err.message);
+      //alert(err.message);
+      setError(true);
     }
   };
   return (
@@ -52,7 +60,9 @@ function Login() {
               placeholder="name@company.com"
               required
             />
+            {error && <p className="text-red-600">Wrong Email</p>}
           </div>
+
           <div>
             <label
               htmlFor="password"
@@ -69,14 +79,15 @@ function Login() {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               required
             />
+            {error && <p className="text-red-600">Wrong Password</p>}
           </div>
           <div className="flex items-start">
-            <a
-              href="/"
+            <button
+              onClick={passwordResetModalHandler}
               className="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
             >
               Lost Password?
-            </a>
+            </button>
           </div>
           <button
             onClick={handleSignIn}
@@ -86,7 +97,7 @@ function Login() {
             Login to your account
           </button>
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-            Not registered?{" "}
+            Not registered?
             <a
               href="/register"
               className="text-blue-700 hover:underline dark:text-blue-500"
@@ -96,6 +107,7 @@ function Login() {
           </div>
         </form>
       </div>
+      <div>{isResetPasswordOpen && <PasswordReset onClose={()=>setIsPasswordResetOpen(false)} />}</div>
     </div>
   );
 }
