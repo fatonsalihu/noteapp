@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { EditorState, Editor, convertFromRaw } from "draft-js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 import "draft-js/dist/Draft.css";
 
 function Note({ note, onDelete }) {
   const contentState = convertFromRaw(JSON.parse(note.content));
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createWithContent(contentState)
-  );
+  const editorState = EditorState.createWithContent(contentState);
 
   const navigate = useNavigate();
 
+  const date = new Date(JSON.parse(note.date));
+  const time = date.toDateString();
+
   return (
-    <div className="relative w-96 h-80 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    <div className="relative w-[360px] h-72 lg:w-96 lg:h-80 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
       <div className="text-white w-96 underline underline-offset-8">
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           {note.title}
@@ -21,11 +22,14 @@ function Note({ note, onDelete }) {
       <div className="mt-5 text-gray-300 overflow-y-scroll scrollbar-thin scrollbar-thumb-slate-900 scrollbar-track-slate-500 h-36 ">
         <Editor editorState={editorState} readOnly={true} />
       </div>
+      <div className="absolute bottom-3 left-3 text-white">
+        <span>{time}</span>
+      </div>
       <div className="absolute bottom-0 right-0">
         <button
           type="button"
           onClick={() =>
-            navigate("/editnote", {
+            navigate(`editnote/id=${note.uidd}`, {
               state: {
                 uidd: note.uidd,
                 title: note.title,
@@ -74,6 +78,7 @@ function Note({ note, onDelete }) {
           </svg>
         </button>
       </div>
+      <Outlet />
     </div>
   );
 }

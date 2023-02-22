@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Home from "./components/Home";
@@ -11,14 +11,15 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <AuthProvider>
-      <div className="h-screen bg-gray-900">
+      <div className="min-h-screen min-w-screen bg-gray-900">
         <Router>
           <Header />
           <Routes>
             <Route element={<ProtectedRoute />}>
-              <Route element={<Home />} path="/home" exact />
-              <Route element={<AddNote />} path="/addnote" />
-              <Route element={<AddNote />} path="/editnote" />
+              <Route element={<Home />} path="/home">
+                <Route element={<AddNote />} path="addnote" />
+                <Route element={<AddNote />} path="editnote/:id" />
+              </Route>
             </Route>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />

@@ -39,12 +39,14 @@ function AddNote() {
         title: title,
         content: content,
         uidd: uidd,
+        date: JSON.stringify(new Date()),
       });
     } else if (editable === true) {
       update(ref(db, `/${currentUser.uid}/${location.state.uidd}`), {
         title: title,
         content: content,
         uidd: location.state.uidd,
+        date: JSON.stringify(new Date()),
       });
     }
     setTitle("");
@@ -69,6 +71,7 @@ function AddNote() {
             <BuildEditor
               editorState={editorState}
               setEditorState={setEditorState}
+              onChange={setEditorState}
             />
           </div>
           <div className="flex justify-end py-3">

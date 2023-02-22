@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { auth, db } from "../firebase.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ref, onValue, remove } from "firebase/database";
 import Note from "./Note";
 
@@ -42,6 +42,7 @@ function NoteList({ search }) {
         .map((note) => (
           <Note key={note.uidd} note={note} onDelete={handleDelete} />
         ))}
+      {notes.length === 0 && <p className="text-white">No notes avaiable</p>}
     </div>
   );
 }
