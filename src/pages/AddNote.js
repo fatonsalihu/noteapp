@@ -5,7 +5,7 @@ import { uid } from "uid";
 import { set, ref, update } from "firebase/database";
 import { AuthContext } from "../context/Auth.js";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
-import BuildEditor from "./BuildEditor.js";
+import BuildEditor from "../components/BuildEditor.js";
 
 function AddNote() {
   const { currentUser } = useContext(AuthContext);

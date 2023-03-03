@@ -5,11 +5,11 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Login from "./components/Login";
-import Home from "./components/Home";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
 import Header from "./components/Header";
-import Register from "./components/Register";
-import AddNote from "./components/AddNote";
+import Register from "./pages/Register";
+import AddNote from "./pages/AddNote";
 import { AuthProvider } from "./context/Auth";
 import ProtectedRoute from "./components/ProtectedRoute";
 

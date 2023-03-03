@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Search from "./Search";
+import Search from "../components/Search";
 import { useNavigate, Outlet } from "react-router-dom";
-import NoteList from "./NoteList";
+import NoteList from "../components/NoteList";
 
 function Home() {
   const [search, setSearch] = useState("");

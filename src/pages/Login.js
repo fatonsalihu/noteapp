@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/Auth";
-import PasswordReset from "./PasswordReset";
+import PasswordReset from "../pages/PasswordReset";
 
 function Login() {
   const [email, setEmail] = useState("");
