@@ -10,6 +10,7 @@ function Header() {
   const handleSignOut = () => {
     try {
       logout();
+      localStorage.removeItem("key");
       navigate("/");
       console.log("You are logged out");
     } catch (e) {
@@ -79,3 +80,5 @@ function Header() {
 }
 
 export default Header;
+
+

@@ -12,6 +12,10 @@ export const AuthContext = React.createContext();
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
+  useEffect(() => {
+    auth.onAuthStateChanged(setCurrentUser);
+  }, []);
+
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
@@ -27,11 +31,6 @@ export const AuthProvider = ({ children }) => {
   const resetPassword = (email) => {
     return sendPasswordResetEmail(auth, email);
   };
-
-  useEffect(() => {
-    auth.onAuthStateChanged(setCurrentUser);
-    // auth.currentUser(setCurrentUser);
-  }, []);
 
   return (
     <AuthContext.Provider

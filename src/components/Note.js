@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { EditorState, Editor, convertFromRaw } from "draft-js";
 import { useNavigate, Outlet } from "react-router-dom";
 import "draft-js/dist/Draft.css";
