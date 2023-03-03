@@ -86,12 +86,12 @@ function Login() {
             {error && <p className="text-red-600">Wrong Password</p>}
           </div>
           <div className="flex items-start">
-            <button
+            <input
+              type="button"
               onClick={passwordResetModalHandler}
+              value="Lost Password?"
               className="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
-            >
-              Lost Password?
-            </button>
+            ></input>
           </div>
           <button
             type="submit"
@@ -111,9 +111,9 @@ function Login() {
         </form>
       </div>
       <div>
-        {isResetPasswordOpen && (
+        {isResetPasswordOpen ? (
           <PasswordReset onClose={() => setIsPasswordResetOpen(false)} />
-        )}
+        ) : null}
       </div>
     </div>
   );

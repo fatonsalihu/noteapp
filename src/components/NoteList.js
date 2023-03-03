@@ -36,7 +36,9 @@ function NoteList({ search }) {
         .filter((note) => {
           return (
             note.title.toLowerCase().includes(search) ||
-            note.content.toLowerCase().includes(search)
+            JSON.parse(note.content)
+              .blocks[0].text.toLowerCase()
+              .includes(search)
           );
         })
         .map((note) => (
