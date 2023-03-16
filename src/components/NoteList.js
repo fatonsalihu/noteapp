@@ -15,13 +15,14 @@ function NoteList({ search }) {
         setLoading(true);
         onValue(ref(db, `/${auth.currentUser.uid}`), (snapshot) => {
           setNotes([]);
+
           const data = snapshot.val();
           if (data !== null) {
             Object.values(data).map((note) => {
               setNotes((oldArray) => [...oldArray, note]);
             });
-            setLoading(false);
           }
+          setLoading(false);
         });
       } else if (!user) {
         navigate("/");
@@ -49,7 +50,9 @@ function NoteList({ search }) {
         .map((note) => (
           <Note key={note.uidd} note={note} onDelete={handleDelete} />
         ))}
-      {notes.length === 0 && !loading && <p className="text-white">No notes avaiable</p>}
+      {notes.length === 0 && !loading && (
+        <p className="text-white">No notes avaiable</p>
+      )}
       {loading && <p className="text-white">Loading</p>}
     </div>
   );
