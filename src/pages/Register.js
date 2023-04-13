@@ -51,6 +51,7 @@ function Register() {
     }
     try {
       await createUser(registerInformation.email, registerInformation.password);
+      localStorage.setItem("key", registerInformation.email);
       navigate("/");
       alert("You Have Been Registered");
     } catch (e) {
